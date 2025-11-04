@@ -3,6 +3,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
+import AccessibilityPanel from '@/components/AccessibilityPanel';
 
 // Lazy load компонентов ниже fold для улучшения LCP
 const PersonalizedSection = lazy(() => import('@/components/sections/PersonalizedSection'));
@@ -47,14 +48,21 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <HeroSection 
-        geo={geo}
-        onContactClick={() => scrollToSection(contactRef)}
-        onProjectsClick={() => scrollToSection(projectsRef)}
-      />
+    <>
+      {/* Skip to content для клавиатурной навигации */}
+      <a href="#main-content" className="skip-to-content">
+        Перейти к содержимому
+      </a>
+
+      <div className="min-h-screen bg-background">
+        <HeroSection 
+          geo={geo}
+          onContactClick={() => scrollToSection(contactRef)}
+          onProjectsClick={() => scrollToSection(projectsRef)}
+        />
       
-      <AboutSection />
+      <main id="main-content">
+        <AboutSection />
       
       <Suspense fallback={<div className="h-32 bg-muted/30 animate-pulse" />}>
         <PersonalizedSection 
@@ -92,14 +100,19 @@ const Index = () => {
         />
       </Suspense>
       
-      <Suspense fallback={<div className="h-32 bg-muted animate-pulse" />}>
-        <Footer />
-      </Suspense>
+        <Suspense fallback={<div className="h-32 bg-muted animate-pulse" />}>
+          <Footer />
+        </Suspense>
+      </main>
       
       <Suspense fallback={null}>
         <ChatBot />
       </Suspense>
-    </div>
+      
+        {/* Панель доступности */}
+        <AccessibilityPanel />
+      </div>
+    </>
   );
 };
 
