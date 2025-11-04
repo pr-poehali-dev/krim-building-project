@@ -1,14 +1,31 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://preview--krim-building-project.poehali.dev/sitemap.xml
+
+# Основные поисковые системы
 User-agent: Googlebot
+Allow: /
+
+User-agent: Yandex
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
+# Социальные сети
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
-Allow: /
+# Блокировка нежелательных ботов для экономии ресурсов
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

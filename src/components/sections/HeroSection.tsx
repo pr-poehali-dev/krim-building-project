@@ -22,10 +22,13 @@ const HeroSection = ({ geo, onContactClick, onProjectsClick }: HeroSectionProps)
       <div 
         ref={parallaxRef}
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        role="img"
+        aria-label="Строительство домов в Крыму - панорамный вид на современный дом у моря"
         style={{ 
           backgroundImage: 'url(https://cdn.poehali.dev/projects/26eb06fc-8eaa-4f11-a9db-43b650be0b4d/files/7c72594d-ca0c-4fb0-aa25-f4b61235bde3.jpg)',
           transform: `translateY(${offset}px)`,
           transition: 'transform 0.1s ease-out',
+          willChange: 'transform',
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />

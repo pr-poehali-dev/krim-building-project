@@ -1,0 +1,33 @@
+{
+  "tests": [
+    {
+      "name": "Send calculation email",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "email": "test@example.com",
+        "name": "Иван Петров",
+        "calculation": {
+          "area": 150,
+          "floors": 2,
+          "material": "block",
+          "finishing": "standard",
+          "extras": {
+            "pool": true,
+            "garage": false,
+            "terrace": true,
+            "smartHome": false
+          },
+          "price": 8500000,
+          "pricePerSqm": 56666
+        }
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true,
+        "message": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

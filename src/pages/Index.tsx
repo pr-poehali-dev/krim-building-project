@@ -1,17 +1,19 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, lazy, Suspense } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useGeolocation } from '@/hooks/useGeolocation';
-import ChatBot from '@/components/ChatBot';
 import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
-import PersonalizedSection from '@/components/sections/PersonalizedSection';
-import AdvantagesSection from '@/components/sections/AdvantagesSection';
-import CalculatorSection from '@/components/sections/CalculatorSection';
-import ProjectsSection from '@/components/sections/ProjectsSection';
-import WorkStepsSection from '@/components/sections/WorkStepsSection';
-import TestimonialsSection from '@/components/sections/TestimonialsSection';
-import ContactFormSection from '@/components/sections/ContactFormSection';
-import Footer from '@/components/sections/Footer';
+
+// Lazy load компонентов ниже fold для улучшения LCP
+const PersonalizedSection = lazy(() => import('@/components/sections/PersonalizedSection'));
+const AdvantagesSection = lazy(() => import('@/components/sections/AdvantagesSection'));
+const CalculatorSection = lazy(() => import('@/components/sections/CalculatorSection'));
+const ProjectsSection = lazy(() => import('@/components/sections/ProjectsSection'));
+const WorkStepsSection = lazy(() => import('@/components/sections/WorkStepsSection'));
+const TestimonialsSection = lazy(() => import('@/components/sections/TestimonialsSection'));
+const ContactFormSection = lazy(() => import('@/components/sections/ContactFormSection'));
+const Footer = lazy(() => import('@/components/sections/Footer'));
+const ChatBot = lazy(() => import('@/components/ChatBot'));
 
 const Index = () => {
   const { toast } = useToast();
@@ -54,31 +56,49 @@ const Index = () => {
       
       <AboutSection />
       
-      <PersonalizedSection 
-        geo={geo}
-        onContactClick={() => scrollToSection(contactRef)}
-      />
+      <Suspense fallback={<div className="h-32 bg-muted/30 animate-pulse" />}>
+        <PersonalizedSection 
+          geo={geo}
+          onContactClick={() => scrollToSection(contactRef)}
+        />
+      </Suspense>
       
-      <AdvantagesSection />
+      <Suspense fallback={<div className="h-96 bg-background animate-pulse" />}>
+        <AdvantagesSection />
+      </Suspense>
       
-      <CalculatorSection />
+      <Suspense fallback={<div className="h-screen bg-muted/30 animate-pulse" />}>
+        <CalculatorSection />
+      </Suspense>
       
-      <ProjectsSection ref={projectsRef} />
+      <Suspense fallback={<div className="h-96 bg-muted/30 animate-pulse" />}>
+        <ProjectsSection ref={projectsRef} />
+      </Suspense>
       
-      <WorkStepsSection />
+      <Suspense fallback={<div className="h-96 bg-background animate-pulse" />}>
+        <WorkStepsSection />
+      </Suspense>
       
-      <TestimonialsSection />
+      <Suspense fallback={<div className="h-96 bg-muted/30 animate-pulse" />}>
+        <TestimonialsSection />
+      </Suspense>
       
-      <ContactFormSection 
-        ref={contactRef}
-        formData={formData}
-        onFormDataChange={setFormData}
-        onSubmit={handleSubmit}
-      />
+      <Suspense fallback={<div className="h-96 bg-background animate-pulse" />}>
+        <ContactFormSection 
+          ref={contactRef}
+          formData={formData}
+          onFormDataChange={setFormData}
+          onSubmit={handleSubmit}
+        />
+      </Suspense>
       
-      <Footer />
+      <Suspense fallback={<div className="h-32 bg-muted animate-pulse" />}>
+        <Footer />
+      </Suspense>
       
-      <ChatBot />
+      <Suspense fallback={null}>
+        <ChatBot />
+      </Suspense>
     </div>
   );
 };

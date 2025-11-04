@@ -62,11 +62,13 @@ const ProjectsSection = forwardRef<HTMLElement>((props, ref) => {
               className={`overflow-hidden border-none shadow-lg hover:shadow-2xl transition-all duration-300 group ${isInView ? 'animate-fade-in-up' : 'opacity-0'}`}
               style={{ animationDelay: `${index * 0.15}s` }}
             >
-              <div className="relative h-64 overflow-hidden">
+              <div className="relative h-64 overflow-hidden bg-muted">
                 <img 
                   ref={parallaxRefs[index] as React.RefObject<HTMLImageElement>}
                   src={project.image} 
-                  alt={project.title}
+                  alt={`${project.title} - ${project.description} - ${project.area} в ${project.location}`}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   style={{ transform: `translateY(${offsets[index]}px)` }}
                 />

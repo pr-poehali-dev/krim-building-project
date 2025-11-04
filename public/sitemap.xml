@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Главная страница -->
+  <url>
+    <loc>https://preview--krim-building-project.poehali.dev/</loc>
+    <lastmod>2025-11-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://cdn.poehali.dev/projects/26eb06fc-8eaa-4f11-a9db-43b650be0b4d/files/7c72594d-ca0c-4fb0-aa25-f4b61235bde3.jpg</image:loc>
+      <image:title>Строительство домов в Крыму</image:title>
+      <image:caption>Панорамная вилла с видом на море - Ялта</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://cdn.poehali.dev/projects/26eb06fc-8eaa-4f11-a9db-43b650be0b4d/files/16faeb25-43f4-4044-afd3-794debac263d.jpg</image:loc>
+      <image:title>Средиземноморская усадьба с бассейном</image:title>
+      <image:caption>Элегантная вилла с бассейном - Алушта</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://cdn.poehali.dev/projects/26eb06fc-8eaa-4f11-a9db-43b650be0b4d/files/1bc5d73f-f152-4b11-9b46-c8a24a1c9e16.jpg</image:loc>
+      <image:title>Минималистичный коттедж у моря</image:title>
+      <image:caption>Современная архитектура у моря - Судак</image:caption>
+    </image:image>
+  </url>
+
+</urlset>
