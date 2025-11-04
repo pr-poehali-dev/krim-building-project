@@ -169,8 +169,13 @@ const Index = () => {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 mx-auto mb-6 bg-secondary rounded-full flex items-center justify-center">
-                    <Icon name={advantage.icon} size={32} className="text-primary" />
+                  <div 
+                    className="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center"
+                    style={{
+                      backgroundColor: index % 3 === 0 ? '#78A678' : index % 3 === 1 ? '#E2B847' : '#EAD9B7'
+                    }}
+                  >
+                    <Icon name={advantage.icon} size={32} className="text-white" />
                   </div>
                   <h3 className="text-xl font-semibold mb-3">{advantage.title}</h3>
                   <p className="text-muted-foreground">{advantage.description}</p>
@@ -203,8 +208,11 @@ const Index = () => {
                     alt={project.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full">
-                    <span className="font-semibold text-primary">{project.area}</span>
+                  <div 
+                    className="absolute top-4 right-4 backdrop-blur-sm px-4 py-2 rounded-full"
+                    style={{ backgroundColor: '#E2B847' }}
+                  >
+                    <span className="font-semibold text-white">{project.area}</span>
                   </div>
                 </div>
                 <CardContent className="p-6">
@@ -228,7 +236,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-20">
+      <section className="py-20" style={{ backgroundColor: '#F9F7F4' }}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">Как мы работаем</h2>
           <div className="max-w-4xl mx-auto space-y-8">
@@ -238,7 +246,12 @@ const Index = () => {
                 className="flex gap-6 items-start animate-fade-in"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="flex-shrink-0 w-20 h-20 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl font-bold">
+                <div 
+                  className="flex-shrink-0 w-20 h-20 text-white rounded-full flex items-center justify-center text-2xl font-bold"
+                  style={{
+                    backgroundColor: index % 2 === 0 ? '#B6552B' : '#194974'
+                  }}
+                >
                   {step.number}
                 </div>
                 <div className="flex-grow pt-2">
