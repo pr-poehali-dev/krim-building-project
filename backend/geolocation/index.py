@@ -54,8 +54,28 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         
         if geo_data.get('status') == 'success':
             crimea_cities = ['Ялта', 'Симферополь', 'Севастополь', 'Алушта', 'Судак', 'Феодосия', 'Евпатория', 'Керчь', 'Бахчисарай']
-            city = geo_data.get('city', 'вашем городе')
+            city_en = geo_data.get('city', 'вашем городе')
             region = geo_data.get('regionName', '')
+            
+            city_translations = {
+                'Moscow': 'Москве',
+                'Saint Petersburg': 'Санкт-Петербурге',
+                'Novosibirsk': 'Новосибирске',
+                'Yekaterinburg': 'Екатеринбурге',
+                'Nizhny Novgorod': 'Нижнем Новгороде',
+                'Kazan': 'Казани',
+                'Chelyabinsk': 'Челябинске',
+                'Omsk': 'Омске',
+                'Samara': 'Самаре',
+                'Rostov-on-Don': 'Ростове-на-Дону',
+                'Ufa': 'Уфе',
+                'Krasnoyarsk': 'Красноярске',
+                'Voronezh': 'Воронеже',
+                'Perm': 'Перми',
+                'Volgograd': 'Волгограде'
+            }
+            
+            city = city_translations.get(city_en, city_en)
             is_crimea = any(crimea_city in city or crimea_city in region for crimea_city in crimea_cities)
             
             result = {

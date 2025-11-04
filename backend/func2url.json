@@ -1,4 +1,5 @@
 {
+  "send-calculation": "https://functions.poehali.dev/7a331e35-c743-4792-b1d5-ea64ea224bf7",
   "geolocation": "https://functions.poehali.dev/83e760cd-8894-490b-b675-c5f17cb70c8e",
   "chat": "https://functions.poehali.dev/c7c5623c-2505-4bf3-b6a1-1e0af89cee08"
 }
