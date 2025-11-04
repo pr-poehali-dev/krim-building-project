@@ -1,46 +1,119 @@
-import { Suspense, lazy } from "react";
-import Hero from "@/components/construction/Hero";
-import Values from "@/components/construction/Values";
-import BuildingProcess from "@/components/construction/BuildingProcess";
-import Technologies from "@/components/construction/Technologies";
-import Certificates from "@/components/construction/Certificates";
-import Projects from "@/components/construction/Projects";
-import PriceCalculator from "@/components/construction/PriceCalculator";
-import Testimonials from "@/components/construction/Testimonials";
-import Contact from "@/components/construction/Contact";
-import Header from "@/components/construction/Header";
-import Footer from "@/components/construction/Footer";
+import { useState, useRef, useEffect, lazy, Suspense } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import { useGeolocation } from '@/hooks/useGeolocation';
+import HeroSection from '@/components/sections/HeroSection';
+import AboutSection from '@/components/sections/AboutSection';
+import AccessibilityPanel from '@/components/AccessibilityPanel';
 
-const AccessibilityPanel = lazy(() => import('@/components/AccessibilityPanel'));
+// Lazy load компонентов ниже fold для улучшения LCP
+const PersonalizedSection = lazy(() => import('@/components/sections/PersonalizedSection'));
+const AdvantagesSection = lazy(() => import('@/components/sections/AdvantagesSection'));
+const CalculatorSection = lazy(() => import('@/components/sections/CalculatorSection'));
+const ProjectsSection = lazy(() => import('@/components/sections/ProjectsSection'));
+const WorkStepsSection = lazy(() => import('@/components/sections/WorkStepsSection'));
+const TestimonialsSection = lazy(() => import('@/components/sections/TestimonialsSection'));
+const ContactFormSection = lazy(() => import('@/components/sections/ContactFormSection'));
+const Footer = lazy(() => import('@/components/sections/Footer'));
+const ChatBot = lazy(() => import('@/components/ChatBot'));
 
-export default function Index() {
+const Index = () => {
+  const { toast } = useToast();
+  const geo = useGeolocation();
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    region: ''
+  });
+
+  const projectsRef = useRef<HTMLElement>(null);
+  const contactRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (geo.personalized && geo.city && !formData.region) {
+      setFormData(prev => ({ ...prev, region: geo.city }));
+    }
+  }, [geo.personalized, geo.city]);
+
+  const scrollToSection = (ref: React.RefObject<HTMLElement>) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Заявка отправлена!",
+      description: "Мы свяжемся с вами в ближайшее время.",
+    });
+    setFormData({ name: '', phone: '', region: geo.personalized ? geo.city : '' });
+  };
+
   return (
     <>
+      {/* Skip to content для клавиатурной навигации */}
       <a href="#main-content" className="skip-to-content">
         Перейти к содержимому
       </a>
-      
+
       <div className="min-h-screen bg-background">
-        <Header />
-        
-        <main id="main-content">
-          <Hero />
-          <Values />
-          <Technologies />
-          <BuildingProcess />
-          <Projects />
-          <Certificates />
-          <PriceCalculator />
-          <Testimonials />
-          <Contact />
-        </main>
-        
-        <Footer />
-        
-        <Suspense fallback={null}>
-          <AccessibilityPanel />
+        <HeroSection 
+          geo={geo}
+          onContactClick={() => scrollToSection(contactRef)}
+          onProjectsClick={() => scrollToSection(projectsRef)}
+        />
+      
+      <main id="main-content">
+        <AboutSection />
+      
+      <Suspense fallback={<div className="h-32 bg-muted/30 animate-pulse" />}>
+        <PersonalizedSection 
+          geo={geo}
+          onContactClick={() => scrollToSection(contactRef)}
+        />
+      </Suspense>
+      
+      <Suspense fallback={<div className="h-96 bg-background animate-pulse" />}>
+        <AdvantagesSection />
+      </Suspense>
+      
+      <Suspense fallback={<div className="h-screen bg-muted/30 animate-pulse" />}>
+        <CalculatorSection />
+      </Suspense>
+      
+      <Suspense fallback={<div className="h-96 bg-muted/30 animate-pulse" />}>
+        <ProjectsSection ref={projectsRef} />
+      </Suspense>
+      
+      <Suspense fallback={<div className="h-96 bg-background animate-pulse" />}>
+        <WorkStepsSection />
+      </Suspense>
+      
+      <Suspense fallback={<div className="h-96 bg-muted/30 animate-pulse" />}>
+        <TestimonialsSection />
+      </Suspense>
+      
+      <Suspense fallback={<div className="h-96 bg-background animate-pulse" />}>
+        <ContactFormSection 
+          ref={contactRef}
+          formData={formData}
+          onFormDataChange={setFormData}
+          onSubmit={handleSubmit}
+        />
+      </Suspense>
+      
+        <Suspense fallback={<div className="h-32 bg-muted animate-pulse" />}>
+          <Footer />
         </Suspense>
+      </main>
+      
+      <Suspense fallback={null}>
+        <ChatBot />
+      </Suspense>
+      
+        {/* Панель доступности */}
+        <AccessibilityPanel />
       </div>
     </>
   );
-}
+};
+
+export default Index;
