@@ -1,6 +1,8 @@
 import { useGeolocation } from '@/hooks/useGeolocation';
 import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
+import PersonalizedSection from '@/components/sections/PersonalizedSection';
+import AdvantagesSection from '@/components/sections/AdvantagesSection';
 
 const Index = () => {
   const geo = useGeolocation();
@@ -13,8 +15,13 @@ const Index = () => {
         onProjectsClick={() => {}}
       />
       <AboutSection />
+      <PersonalizedSection 
+        geo={geo}
+        onContactClick={() => {}}
+      />
+      <AdvantagesSection />
       <div className="p-8 text-center">
-        <h2 className="text-2xl">Hero + About работают</h2>
+        <h2 className="text-2xl">4 секции работают</h2>
       </div>
     </div>
   );
