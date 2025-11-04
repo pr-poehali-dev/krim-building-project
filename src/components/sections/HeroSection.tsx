@@ -1,5 +1,7 @@
+import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
+import { useParallax } from '@/hooks/useParallax';
 
 interface HeroSectionProps {
   geo: {
@@ -12,12 +14,18 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ geo, onContactClick, onProjectsClick }: HeroSectionProps) => {
+  const parallaxRef = useRef<HTMLDivElement>(null);
+  const offset = useParallax(parallaxRef, 0.5);
+
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
       <div 
+        ref={parallaxRef}
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ 
           backgroundImage: 'url(https://cdn.poehali.dev/projects/26eb06fc-8eaa-4f11-a9db-43b650be0b4d/files/7c72594d-ca0c-4fb0-aa25-f4b61235bde3.jpg)',
+          transform: `translateY(${offset}px)`,
+          transition: 'transform 0.1s ease-out',
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />

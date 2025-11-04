@@ -1,8 +1,9 @@
-import { forwardRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { useInView } from '@/hooks/useInView';
+import { useParallax } from '@/hooks/useParallax';
 
 const projects = [
   {
@@ -30,6 +31,15 @@ const projects = [
 
 const ProjectsSection = forwardRef<HTMLElement>((props, ref) => {
   const { ref: inViewRef, isInView } = useInView();
+  const parallaxRef1 = useRef<HTMLImageElement>(null);
+  const parallaxRef2 = useRef<HTMLImageElement>(null);
+  const parallaxRef3 = useRef<HTMLImageElement>(null);
+  const offset1 = useParallax(parallaxRef1, 0.3);
+  const offset2 = useParallax(parallaxRef2, 0.3);
+  const offset3 = useParallax(parallaxRef3, 0.3);
+
+  const parallaxRefs = [parallaxRef1, parallaxRef2, parallaxRef3];
+  const offsets = [offset1, offset2, offset3];
 
   return (
     <section ref={(node) => {
@@ -54,9 +64,11 @@ const ProjectsSection = forwardRef<HTMLElement>((props, ref) => {
             >
               <div className="relative h-64 overflow-hidden">
                 <img 
+                  ref={parallaxRefs[index] as React.RefObject<HTMLImageElement>}
                   src={project.image} 
                   alt={project.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  style={{ transform: `translateY(${offsets[index]}px)` }}
                 />
               </div>
               <CardContent className="p-6">
