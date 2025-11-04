@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
+import Counter from '@/components/Counter';
 
 const Index = () => {
   const { toast } = useToast();
@@ -12,6 +13,13 @@ const Index = () => {
     phone: '',
     region: ''
   });
+
+  const projectsRef = useRef<HTMLElement>(null);
+  const contactRef = useRef<HTMLElement>(null);
+
+  const scrollToSection = (ref: React.RefObject<HTMLElement>) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -130,10 +138,19 @@ const Index = () => {
             Построим дом вашей мечты на крымском побережье — быстро, прозрачно и с учетом всех ваших пожеланий. Проекты. Строительство. Сервис.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8 py-6 bg-white text-primary hover:bg-secondary transition-all">
+            <Button 
+              size="lg" 
+              className="text-lg px-8 py-6 bg-white text-primary hover:bg-secondary transition-all"
+              onClick={() => scrollToSection(contactRef)}
+            >
               Получить консультацию
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-2 border-white bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-primary transition-all">
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="text-lg px-8 py-6 border-2 border-white bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-primary transition-all"
+              onClick={() => scrollToSection(projectsRef)}
+            >
               Посмотреть проекты
             </Button>
           </div>
@@ -154,6 +171,29 @@ const Index = () => {
               чтобы создавать надежные и красивые дома для жизни и отдыха. 
               <span className="font-semibold text-primary"> Гарантия на все работы — до 10 лет.</span>
             </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mt-16">
+            <div className="text-center p-8 bg-white rounded-lg shadow-lg">
+              <div className="text-5xl md:text-6xl font-bold mb-2" style={{ color: '#194974' }}>
+                <Counter end={150} suffix="+" />
+              </div>
+              <p className="text-lg text-muted-foreground">Домов построено</p>
+            </div>
+            
+            <div className="text-center p-8 bg-white rounded-lg shadow-lg">
+              <div className="text-5xl md:text-6xl font-bold mb-2" style={{ color: '#B6552B' }}>
+                <Counter end={10} suffix="+" />
+              </div>
+              <p className="text-lg text-muted-foreground">Лет опыта</p>
+            </div>
+            
+            <div className="text-center p-8 bg-white rounded-lg shadow-lg">
+              <div className="text-5xl md:text-6xl font-bold mb-2" style={{ color: '#78A678' }}>
+                <Counter end={98} suffix="%" />
+              </div>
+              <p className="text-lg text-muted-foreground">Довольных клиентов</p>
+            </div>
           </div>
         </div>
       </section>
@@ -186,7 +226,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-muted/30">
+      <section ref={projectsRef} className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Проекты домов</h2>
@@ -294,7 +334,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section ref={contactRef} className="py-20 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Готовы начать строительство?</h2>
