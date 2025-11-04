@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import Icon from '@/components/ui/icon';
 import { useInView } from '@/hooks/useInView';
+import HouseVisualization from '@/components/HouseVisualization';
 
 interface CalculatorState {
   area: number;
@@ -78,6 +79,27 @@ const CalculatorSection = () => {
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Рассчитайте примерную стоимость вашего дома за 30 секунд
           </p>
+        </div>
+
+        {/* Visualization */}
+        <div className={`mb-12 ${isInView ? 'animate-scale-in' : 'opacity-0'}`} style={{ animationDelay: '0.1s' }}>
+          <Card className="border-none shadow-2xl overflow-hidden">
+            <CardContent className="p-0">
+              <HouseVisualization
+                floors={state.floors}
+                material={state.material}
+                hasPool={state.extras.pool}
+                hasGarage={state.extras.garage}
+                hasTerrace={state.extras.terrace}
+              />
+              <div className="p-4 bg-primary/5 text-center">
+                <p className="text-sm text-muted-foreground flex items-center justify-center gap-2">
+                  <Icon name="Sparkles" size={16} />
+                  Визуализация меняется в реальном времени
+                </p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
