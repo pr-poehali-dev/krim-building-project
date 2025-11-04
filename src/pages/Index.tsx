@@ -133,7 +133,7 @@ const Index = () => {
             <Button size="lg" className="text-lg px-8 py-6 bg-white text-primary hover:bg-secondary transition-all">
               Получить консультацию
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-2 border-white text-white hover:bg-white/10 transition-all">
+            <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-2 border-white bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-primary transition-all">
               Посмотреть проекты
             </Button>
           </div>
