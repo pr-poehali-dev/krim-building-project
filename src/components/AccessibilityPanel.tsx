@@ -59,37 +59,6 @@ const AccessibilityPanel = () => {
     applySettings(settings);
   }, [settings]);
 
-  // Клавиатурные сочетания для изменения размера шрифта
-  useEffect(() => {
-    const handleKeyboard = (e: KeyboardEvent) => {
-      const sizes: FontSize[] = ['small', 'normal', 'large', 'xlarge'];
-      const currentIndex = sizes.indexOf(settings.fontSize);
-      
-      // Ctrl/Cmd + Plus/Equals для увеличения
-      if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '=')) {
-        e.preventDefault();
-        if (currentIndex < sizes.length - 1) {
-          setSettings(prev => ({ ...prev, fontSize: sizes[currentIndex + 1] }));
-        }
-      }
-      // Ctrl/Cmd + Minus для уменьшения
-      if ((e.ctrlKey || e.metaKey) && e.key === '-') {
-        e.preventDefault();
-        if (currentIndex > 0) {
-          setSettings(prev => ({ ...prev, fontSize: sizes[currentIndex - 1] }));
-        }
-      }
-      // Ctrl/Cmd + 0 для сброса
-      if ((e.ctrlKey || e.metaKey) && e.key === '0') {
-        e.preventDefault();
-        setSettings(prev => ({ ...prev, fontSize: 'normal' }));
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyboard);
-    return () => window.removeEventListener('keydown', handleKeyboard);
-  }, [settings.fontSize]);
-
   const applySettings = (settings: AccessibilitySettings) => {
     const root = document.documentElement;
     
