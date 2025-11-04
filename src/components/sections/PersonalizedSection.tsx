@@ -1,6 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
+import { useInView } from '@/hooks/useInView';
 
 interface PersonalizedSectionProps {
   geo: {
@@ -12,12 +13,14 @@ interface PersonalizedSectionProps {
 }
 
 const PersonalizedSection = ({ geo, onContactClick }: PersonalizedSectionProps) => {
+  const { ref, isInView } = useInView();
+
   if (!geo.personalized) return null;
 
   return (
-    <section className="py-16 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10">
+    <section ref={ref} className="py-16 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10">
       <div className="container mx-auto px-4">
-        <Card className="max-w-4xl mx-auto border-2 shadow-2xl" style={{ borderColor: '#194974' }}>
+        <Card className={`max-w-4xl mx-auto border-2 shadow-2xl ${isInView ? 'animate-scale-in' : 'opacity-0'}`} style={{ borderColor: '#194974' }}>
           <CardContent className="p-8 md:p-12 text-center">
             <div className="flex items-center justify-center gap-2 mb-4">
               <Icon name="MapPin" size={28} style={{ color: '#B6552B' }} />

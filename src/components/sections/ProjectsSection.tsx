@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
+import { useInView } from '@/hooks/useInView';
 
 const projects = [
   {
@@ -28,11 +29,17 @@ const projects = [
 ];
 
 const ProjectsSection = forwardRef<HTMLElement>((props, ref) => {
+  const { ref: inViewRef, isInView } = useInView();
+
   return (
-    <section ref={ref} className="py-20 bg-muted/30">
+    <section ref={(node) => {
+      if (typeof ref === 'function') ref(node);
+      else if (ref) ref.current = node;
+      inViewRef.current = node;
+    }} className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Проекты домов</h2>
+          <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isInView ? 'animate-fade-in-up' : 'opacity-0'}`}>Проекты домов</h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Посмотрите наши типовые и индивидуальные проекты — для постоянного проживания, отдыха, сдачи в аренду
           </p>
@@ -42,7 +49,7 @@ const ProjectsSection = forwardRef<HTMLElement>((props, ref) => {
           {projects.map((project, index) => (
             <Card 
               key={index} 
-              className="overflow-hidden border-none shadow-lg hover:shadow-2xl transition-all duration-300 group animate-fade-in"
+              className={`overflow-hidden border-none shadow-lg hover:shadow-2xl transition-all duration-300 group ${isInView ? 'animate-fade-in-up' : 'opacity-0'}`}
               style={{ animationDelay: `${index * 0.15}s` }}
             >
               <div className="relative h-64 overflow-hidden">

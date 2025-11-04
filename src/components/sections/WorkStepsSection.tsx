@@ -1,3 +1,5 @@
+import { useInView } from '@/hooks/useInView';
+
 const steps = [
   {
     number: '01',
@@ -27,15 +29,17 @@ const steps = [
 ];
 
 const WorkStepsSection = () => {
+  const { ref, isInView } = useInView();
+
   return (
-    <section className="py-20" style={{ backgroundColor: '#F9F7F4' }}>
+    <section ref={ref} className="py-20" style={{ backgroundColor: '#F9F7F4' }}>
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">Как мы работаем</h2>
+        <h2 className={`text-3xl md:text-4xl font-bold text-center mb-16 ${isInView ? 'animate-fade-in-up' : 'opacity-0'}`}>Как мы работаем</h2>
         <div className="max-w-4xl mx-auto space-y-8">
           {steps.map((step, index) => (
             <div 
               key={index} 
-              className="flex gap-6 items-start animate-fade-in"
+              className={`flex gap-6 items-start ${isInView ? 'animate-fade-in-left' : 'opacity-0'}`}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div 

@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
+import { useInView } from '@/hooks/useInView';
 
 interface ContactFormSectionProps {
   formData: {
@@ -16,16 +17,22 @@ interface ContactFormSectionProps {
 
 const ContactFormSection = forwardRef<HTMLElement, ContactFormSectionProps>(
   ({ formData, onFormDataChange, onSubmit }, ref) => {
+    const { ref: inViewRef, isInView } = useInView();
+
     return (
-      <section ref={ref} className="py-20 bg-primary text-primary-foreground">
+      <section ref={(node) => {
+        if (typeof ref === 'function') ref(node);
+        else if (ref) ref.current = node;
+        inViewRef.current = node;
+      }} className="py-20 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Готовы начать строительство?</h2>
+            <h2 className={`text-3xl md:text-4xl font-bold text-center mb-4 ${isInView ? 'animate-fade-in-up' : 'opacity-0'}`}>Готовы начать строительство?</h2>
             <p className="text-lg text-center mb-10 opacity-90">
               Оставьте заявку — мы перезвоним и ответим на все вопросы!
             </p>
             
-            <Card className="border-none shadow-2xl">
+            <Card className={`border-none shadow-2xl ${isInView ? 'animate-scale-in' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
               <CardContent className="p-8">
                 <form onSubmit={onSubmit} className="space-y-6">
                   <div>

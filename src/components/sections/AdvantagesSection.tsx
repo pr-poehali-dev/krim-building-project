@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
+import { useInView } from '@/hooks/useInView';
 
 const advantages = [
   {
@@ -35,15 +36,17 @@ const advantages = [
 ];
 
 const AdvantagesSection = () => {
+  const { ref, isInView } = useInView();
+
   return (
-    <section className="py-20">
+    <section ref={ref} className="py-20">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">Наши преимущества</h2>
+        <h2 className={`text-3xl md:text-4xl font-bold text-center mb-16 ${isInView ? 'animate-fade-in-up' : 'opacity-0'}`}>Наши преимущества</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {advantages.map((advantage, index) => (
             <Card 
               key={index} 
-              className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 animate-scale-in"
+              className={`border-none shadow-lg hover:shadow-xl transition-shadow duration-300 ${isInView ? 'animate-scale-in' : 'opacity-0'}`}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <CardContent className="p-8 text-center">
