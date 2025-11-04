@@ -11,6 +11,8 @@ import WorkStepsSection from '@/components/sections/WorkStepsSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import ContactFormSection from '@/components/sections/ContactFormSection';
 import Footer from '@/components/sections/Footer';
+import ChatBot from '@/components/ChatBot';
+import AccessibilityPanel from '@/components/AccessibilityPanel';
 
 const Index = () => {
   const { toast } = useToast();
@@ -69,6 +71,9 @@ const Index = () => {
           />
           <Footer />
         </main>
+      
+        <ChatBot />
+        <AccessibilityPanel />
       </div>
     </>
   );
