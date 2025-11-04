@@ -62,20 +62,27 @@ const AccessibilityPanel = () => {
   // Клавиатурные сочетания для изменения размера шрифта
   useEffect(() => {
     const handleKeyboard = (e: KeyboardEvent) => {
+      const sizes: FontSize[] = ['small', 'normal', 'large', 'xlarge'];
+      const currentIndex = sizes.indexOf(settings.fontSize);
+      
       // Ctrl/Cmd + Plus/Equals для увеличения
       if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '=')) {
         e.preventDefault();
-        increaseFontSize();
+        if (currentIndex < sizes.length - 1) {
+          setSettings(prev => ({ ...prev, fontSize: sizes[currentIndex + 1] }));
+        }
       }
       // Ctrl/Cmd + Minus для уменьшения
       if ((e.ctrlKey || e.metaKey) && e.key === '-') {
         e.preventDefault();
-        decreaseFontSize();
+        if (currentIndex > 0) {
+          setSettings(prev => ({ ...prev, fontSize: sizes[currentIndex - 1] }));
+        }
       }
       // Ctrl/Cmd + 0 для сброса
       if ((e.ctrlKey || e.metaKey) && e.key === '0') {
         e.preventDefault();
-        updateSetting('fontSize', 'normal');
+        setSettings(prev => ({ ...prev, fontSize: 'normal' }));
       }
     };
 
