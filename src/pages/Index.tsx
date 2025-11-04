@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -6,9 +6,11 @@ import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 import Counter from '@/components/Counter';
 import ChatBot from '@/components/ChatBot';
+import { useGeolocation } from '@/hooks/useGeolocation';
 
 const Index = () => {
   const { toast } = useToast();
+  const geo = useGeolocation();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -16,6 +18,12 @@ const Index = () => {
   });
 
   const projectsRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (geo.personalized && geo.city && !formData.region) {
+      setFormData(prev => ({ ...prev, region: geo.city }));
+    }
+  }, [geo.personalized, geo.city]);
   const contactRef = useRef<HTMLElement>(null);
 
   const scrollToSection = (ref: React.RefObject<HTMLElement>) => {
@@ -28,7 +36,7 @@ const Index = () => {
       title: "Заявка отправлена!",
       description: "Мы свяжемся с вами в ближайшее время.",
     });
-    setFormData({ name: '', phone: '', region: '' });
+    setFormData({ name: '', phone: '', region: geo.personalized ? geo.city : '' });
   };
 
   const advantages = [
@@ -130,10 +138,18 @@ const Index = () => {
         
         <div className="relative z-10 container mx-auto px-4 text-center text-white animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            Строительство индивидуальных<br />домов в Крыму
+            Строительство домов в Крыму
+            {geo.personalized && geo.city && (
+              <span className="block text-3xl md:text-4xl mt-4 text-primary-foreground/90">
+                для жителей {geo.isCrimea ? `г. ${geo.city}` : `из ${geo.city}`}
+              </span>
+            )}
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto font-light">
-            С гарантией надежности и качеством под ключ
+            {geo.isCrimea 
+              ? `Работаем в вашем городе — быстрый выезд на объект`
+              : `Узнайте стоимость строительства для ${geo.city}`
+            }
           </p>
           <p className="text-lg md:text-xl mb-10 max-w-4xl mx-auto opacity-90">
             Построим дом вашей мечты на крымском побережье — быстро, прозрачно и с учетом всех ваших пожеланий. Проекты. Строительство. Сервис.
@@ -198,6 +214,56 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {geo.personalized && (
+        <section className="py-16 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10">
+          <div className="container mx-auto px-4">
+            <Card className="max-w-4xl mx-auto border-2 shadow-2xl" style={{ borderColor: '#194974' }}>
+              <CardContent className="p-8 md:p-12 text-center">
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <Icon name="MapPin" size={28} style={{ color: '#B6552B' }} />
+                  <h2 className="text-2xl md:text-3xl font-bold">
+                    {geo.isCrimea ? `Специально для жителей ${geo.city}` : `Строим для клиентов из ${geo.city}`}
+                  </h2>
+                </div>
+                <p className="text-lg text-muted-foreground mb-6">
+                  {geo.isCrimea 
+                    ? `Бесплатный выезд на участок в течение 24 часов. Знаем все особенности строительства в вашем регионе.`
+                    : `Поможем с выбором участка в Крыму и организуем строительство под ключ. Консультация онлайн или по телефону.`
+                  }
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div className="p-4 bg-white rounded-lg shadow">
+                    <Icon name="Truck" size={32} className="mx-auto mb-2" style={{ color: '#194974' }} />
+                    <p className="font-semibold">Доставка материалов</p>
+                    <p className="text-sm text-muted-foreground">
+                      {geo.isCrimea ? 'Бесплатно по региону' : 'Организуем логистику'}
+                    </p>
+                  </div>
+                  <div className="p-4 bg-white rounded-lg shadow">
+                    <Icon name="BadgePercent" size={32} className="mx-auto mb-2" style={{ color: '#B6552B' }} />
+                    <p className="font-semibold">Спецпредложение</p>
+                    <p className="text-sm text-muted-foreground">Скидка 5% при договоре в ноябре</p>
+                  </div>
+                  <div className="p-4 bg-white rounded-lg shadow">
+                    <Icon name="Calendar" size={32} className="mx-auto mb-2" style={{ color: '#78A678' }} />
+                    <p className="font-semibold">Сроки</p>
+                    <p className="text-sm text-muted-foreground">От 4 месяцев под ключ</p>
+                  </div>
+                </div>
+                <Button 
+                  size="lg" 
+                  className="text-lg px-8"
+                  onClick={() => scrollToSection(contactRef)}
+                >
+                  Узнать точную стоимость для {geo.city}
+                  <Icon name="ArrowRight" size={20} className="ml-2" />
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+      )}
 
       <section className="py-20">
         <div className="container mx-auto px-4">
