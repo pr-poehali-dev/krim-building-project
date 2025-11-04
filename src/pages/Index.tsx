@@ -6,6 +6,7 @@ import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
 import PersonalizedSection from '@/components/sections/PersonalizedSection';
 import AdvantagesSection from '@/components/sections/AdvantagesSection';
+import CalculatorSection from '@/components/sections/CalculatorSection';
 import ProjectsSection from '@/components/sections/ProjectsSection';
 import WorkStepsSection from '@/components/sections/WorkStepsSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
@@ -59,6 +60,8 @@ const Index = () => {
       />
       
       <AdvantagesSection />
+      
+      <CalculatorSection />
       
       <ProjectsSection ref={projectsRef} />
       
